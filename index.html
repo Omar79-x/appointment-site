@@ -13,8 +13,11 @@
 
   <form id="appointment-form">
     <input type="text" id="name" placeholder="الاسم" required>
+    <input type="text" id="phone" placeholder="رقم الهاتف" required>
+    <input type="text" id="account" placeholder="الحساب" required>
     <input type="date" id="date" required>
-    <input type="time" id="time" required>
+    <input type="time" id="time-from" required>
+    <input type="time" id="time-to" required>
     <input type="text" id="note" placeholder="ملاحظة (اختياري)">
     <button type="submit">إضافة الموعد</button>
   </form>
@@ -24,9 +27,13 @@
     <thead>
       <tr>
         <th>الاسم</th>
+        <th>رقم الهاتف</th>
+        <th>الحساب</th>
         <th>التاريخ</th>
-        <th>الوقت</th>
+        <th>من</th>
+        <th>إلى</th>
         <th>ملاحظة</th>
+        <th>حذف</th>
       </tr>
     </thead>
     <tbody>

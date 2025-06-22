@@ -2,9 +2,10 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appointment Scheduler</title>
   <link rel="stylesheet" href="style.css">
-</head>
+  </head>
 <body>
   <div class="logo-container">
     <img src="logo.png" alt="Logo" class="logo">
@@ -13,9 +14,15 @@
 
   <form id="appointment-form">
     <input type="text" id="name" placeholder="الاسم" required>
+    
+    <input type="text" id="account" placeholder="الحساب (اختياري)">
+    
     <input type="date" id="date" required>
+    
     <input type="time" id="time" required>
+    
     <input type="text" id="note" placeholder="ملاحظة (اختياري)">
+    
     <button type="submit">إضافة الموعد</button>
   </form>
 
@@ -24,39 +31,16 @@
     <thead>
       <tr>
         <th>الاسم</th>
-        <th>التاريخ</th>
+        <th>الحساب</th> <th>التاريخ</th>
         <th>الوقت</th>
         <th>ملاحظة</th>
+        <th>حذف</th>
       </tr>
     </thead>
     <tbody>
-    </tbody>
+      </tbody>
   </table>
 
   <script src="script.js"></script>
 </body>
 </html>
-<ion-item>
-  <ion-label position="floating">الحساب (اختياري)</ion-label>
-  <ion-input type="text" id="accountInput" placeholder="أدخل رقم الحساب أو اسم الحساب"></ion-input>
-</ion-item>
-
-<ion-item>
-  <ion-label position="floating">الاسم</ion-label>
-  <ion-input type="text" id="nameInput" required></ion-input>
-</ion-item>
-<ion-item>
-  <ion-label position="floating">التاريخ</ion-label>
-  <ion-datetime display-format="YYYY-MM-DD" picker-format="YYYY-MM-DD" id="dateInput" required></ion-datetime>
-</ion-item>
-<ion-item>
-  <ion-label position="floating">الوقت</ion-label>
-  <ion-datetime display-format="HH:mm" picker-format="HH:mm" id="timeInput" required></ion-datetime>
-</ion-item>
-<ion-item>
-  <ion-label position="floating">ملاحظة (اختياري)</ion-label>
-  <ion-input type="text" id="notesInput" placeholder="أضف ملاحظاتك هنا"></ion-input>
-</ion-item>
-
-<ion-button expand="block" onclick="saveAppointment()">إضافة الموعد</ion-button>
-

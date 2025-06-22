@@ -72,15 +72,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function saveAppointment() {
     const name = document.getElementById('nameInput').value;
+    const account = document.getElementById('accountInput').value; // استرجاع قيمة الحساب
     const date = document.getElementById('dateInput').value;
     const time = document.getElementById('timeInput').value;
     const notes = document.getElementById('notesInput').value;
 
-    // لاحظ: لا يوجد أي استدعاء لـ document.getElementById('accountInput').value; هنا
+    // التحقق من الحقول المطلوبة فقط (الاسم، التاريخ، الوقت)
+    // لاحظ أن 'account' غير موجود هنا في شرط التحقق!
+    if (!name || !date || !time) {
+        alert('الرجاء ملء الحقول المطلوبة (الاسم، التاريخ، الوقت).');
+        return; // إيقاف الدالة إذا كانت الحقول المطلوبة فارغة
+    }
 
-    // الآن، بيانات الموعد التي سيتم التعامل معها هي: name, date, time, notes فقط
     const appointmentData = {
         name: name,
+        account: account, // إضافة الحساب لبيانات الموعد (ممكن تكون فارغة)
         date: date,
         time: time,
         notes: notes
@@ -88,25 +94,54 @@ function saveAppointment() {
 
     console.log('بيانات الموعد الجاري حفظها:', appointmentData);
 
-    // هنا ستكمل منطق إرسال appointmentData إلى قاعدة البيانات أو تخزينها
-    // (مثل استخدام fetch() أو XMLHttpRequest لإرسال البيانات إلى API)
-
-    // مثال (إذا كنت ستضيفها إلى جدول محلي في الصفحة):
+    // هنا يتم إضافة البيانات للجدول في الواجهة
     addAppointmentToTable(appointmentData);
 
-    // يمكنك مسح حقل الحساب بعد الإضافة لو أردت
-    document.getElementById('accountInput').value = '';
+    // هنا تضيف الكود الخاص بإرسال البيانات إلى الـ Backend (API) إذا كنت تستخدم قاعدة بيانات
+    // (الـ 'account' سيُرسل بقيمته، حتى لو كانت فارغة)
+
+    // مسح حقول الإدخال بعد الإضافة
+    document.getElementById('nameInput').value = '';
+    document.getElementById('accountInput').value = ''; // مسح الحساب أيضًا
+    document.getElementById('dateInput').value = '';
+    document.getElementById('timeInput').value = '';
+    document.getElementById('notesInput').value = '';
 }
 
-// دالة افتراضية لإضافة البيانات للجدول في الواجهة (للتوضيح فقط)
+// دالة لإضافة البيانات للجدول في الواجهة (بدون تغيير في هذه الدالة)
 function addAppointmentToTable(data) {
-    const tableBody = document.querySelector('.appointments-table tbody'); // افترض أن لديك جدول بهذا الـ selector
-    if (tableBody) {
-        const newRow = tableBody.insertRow();
-        newRow.insertCell().textContent = data.name;
-        newRow.insertCell().textContent = data.date;
-        newRow.insertCell().textContent = data.time;
-        newRow.insertCell().textContent = data.notes;
-        newRow.insertCell().textContent = 'حذف'; // زر الحذف
-    }
+    const tableBody = document.getElementById('appointmentsTableBody'); // الحصول على العنصر الحاوي لصفوف الجدول
+
+    const newRow = document.createElement('ion-row');
+
+    const nameCol = document.createElement('ion-col');
+    nameCol.textContent = data.name;
+    newRow.appendChild(nameCol);
+
+    const accountCol = document.createElement('ion-col'); // العمود الجديد للحساب
+    accountCol.textContent = data.account; // سيعرض القيمة، حتى لو كانت فارغة
+    newRow.appendChild(accountCol);
+
+    const dateCol = document.createElement('ion-col');
+    dateCol.textContent = data.date;
+    newRow.appendChild(dateCol);
+
+    const timeCol = document.createElement('ion-col');
+    timeCol.textContent = data.time;
+    newRow.appendChild(timeCol);
+
+    const notesCol = document.createElement('ion-col');
+    notesCol.textContent = data.notes;
+    newRow.appendChild(notesCol);
+
+    const deleteCol = document.createElement('ion-col');
+    const deleteButton = document.createElement('ion-button');
+    deleteButton.setAttribute('fill', 'clear');
+    deleteButton.setAttribute('color', 'danger');
+    deleteButton.textContent = 'حذف';
+    deleteCol.appendChild(deleteButton);
+    newRow.appendChild(deleteCol);
+
+    tableBody.appendChild(newRow);
 }
+

@@ -1,17 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // الحصول على عناصر النموذج والجدول من HTML
     const form = document.getElementById("appointment-form");
     const tableBody = document.querySelector("#appointment-table tbody");
 
-    // تحميل المواعيد من Local Storage أو بدء مصفوفة فارغة إذا لم توجد
+    // نستخدم 'let' بدلاً من 'const' للسماح بتغيير مصفوفة المواعيد بعد الحذف
     let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
 
-    // دالة لحفظ المواعيد الحالية في Local Storage
+    // دالة لحفظ المواعيد في Local Storage
     function saveAppointments() {
         localStorage.setItem("appointments", JSON.stringify(appointments));
     }
 
-    // دالة لعرض جميع المواعيد في الجدول
+    // دالة لعرض المواعيد في الجدول
     function renderAppointments() {
         tableBody.innerHTML = ""; // مسح المحتوى الحالي للجدول قبل إعادة الرسم
         appointments.forEach((appt, index) => {
@@ -19,28 +18,30 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
                 <td>${appt.name}</td>
                 <td>${appt.date}</td>
-                <td>${appt.start_time} - ${appt.end_time}</td> <td>${appt.note}</td>
+                <td>${appt.time}</td>
+                <td>${appt.note}</td>
                 <td><button class="delete-button" data-id="${index}">حذف</button></td>
             `;
             tableBody.appendChild(row);
         });
     }
 
-    // دالة لحذف موعد معين بناءً على الـ ID (الـ index هنا)
+    // دالة لحذف موعد معين
     function deleteAppointment(idToDelete) {
         // فلترة المواعيد: الاحتفاظ بجميع المواعيد ما عدا الموعد المحدد للحذف
+        // نستخدم `toString()` للمقارنة لضمان التطابق بين الـ ID المستلم والـ index
         appointments = appointments.filter((_, index) => index.toString() !== idToDelete);
-        saveAppointments(); // حفظ القائمة الجديدة للمواعيد في Local Storage
-        renderAppointments(); // إعادة عرض المواعيد لتحديث الواجهة بعد الحذف
+        saveAppointments(); // حفظ القائمة الجديدة للمواعيد
+        renderAppointments(); // إعادة عرض المواعيد لتحديث الواجهة
     }
 
-    // إضافة مستمع للأحداث (Event Listener) للتعامل مع النقر على الأزرار
+    // الاستماع لحدث الضغط على أي زر في المستند
     document.addEventListener('click', function(event) {
-        // التحقق مما إذا كان العنصر الذي تم النقر عليه يحتوي على الـ class "delete-button"
+        // التحقق مما إذا كان العنصر الذي تم النقر عليه هو زر الحذف
         if (event.target.classList.contains('delete-button')) {
             const appointmentIdToDelete = event.target.dataset.id; // الحصول على الـ ID من الزر
-
-            // طلب تأكيد من المستخدم قبل تنفيذ عملية الحذف
+            
+            // طلب تأكيد من المستخدم قبل الحذف
             const confirmDelete = confirm("هل أنت متأكد أنك تريد حذف هذا الموعد؟");
             if (confirmDelete) {
                 deleteAppointment(appointmentIdToDelete); // استدعاء دالة الحذف إذا تم التأكيد
@@ -48,24 +49,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // إضافة مستمع لحدث إرسال النموذج (submit) لإضافة موعد جديد
+    // الاستماع لحدث إرسال النموذج (إضافة موعد جديد)
     form.addEventListener("submit", (e) => {
         e.preventDefault(); // منع السلوك الافتراضي للنموذج (إعادة تحميل الصفحة)
 
-        // الحصول على قيم الحقول من النموذج
+        // الحصول على قيم الحقول
         const name = document.getElementById("name").value;
         const date = document.getElementById("date").value;
-        const startTime = document.getElementById("start-time").value; // الحصول على وقت البدء
-        const endTime = document.getElementById("end-time").value;     // الحصول على وقت الانتهاء
+        const time = document.getElementById("time").value;
         const note = document.getElementById("note").value;
 
-        // إضافة الموعد الجديد إلى مصفوفة المواعيد
-        appointments.push({ name, date, start_time: startTime, end_time: endTime, note });
-        saveAppointments();   // حفظ المواعيد المحدثة في Local Storage
-        renderAppointments(); // تحديث عرض المواعيد في الجدول
-        form.reset();         // مسح حقول النموذج بعد الإضافة
+        // إضافة الموعد الجديد إلى المصفوفة
+        appointments.push({ name, date, time, note });
+        saveAppointments(); // حفظ المواعيد
+        renderAppointments(); // تحديث العرض
+        form.reset(); // مسح حقول النموذج
     });
 
-    // استدعاء دالة عرض المواعيد عند تحميل الصفحة لأول مرة لضمان ظهور أي مواعيد محفوظة
+    // استدعاء دالة عرض المواعيد عند تحميل الصفحة لأول مرة
     renderAppointments();
 });

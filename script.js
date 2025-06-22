@@ -69,3 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // استدعاء دالة عرض المواعيد عند تحميل الصفحة لأول مرة
     renderAppointments();
 });
+function saveAppointment() {
+    const name = document.getElementById('nameInput').value; // افتراضًا عندك حقل اسم
+    const date = document.getElementById('dateInput').value; // افتراضًا عندك حقل تاريخ
+    const time = document.getElementById('timeInput').value; // افتراضًا عندك حقل وقت
+    const notes = document.getElementById('notesInput').value;
+    const account = document.getElementById('accountInput').value; // ده الحقل الجديد
+
+    // هنا بتستخدم المتغيرات دي، سواء بتبعتها لـ API أو بتضيفها لجدول
+    console.log('الاسم:', name);
+    console.log('التاريخ:', date);
+    console.log('الوقت:', time);
+    console.log('الملاحظة:', notes);
+    console.log('الحساب:', account);
+
+    // أكمل باقي منطق حفظ الموعد
+}
+

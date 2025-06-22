@@ -69,20 +69,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // استدعاء دالة عرض المواعيد عند تحميل الصفحة لأول مرة
     renderAppointments();
 });
+
 function saveAppointment() {
-    const name = document.getElementById('nameInput').value; // افتراضًا عندك حقل اسم
-    const date = document.getElementById('dateInput').value; // افتراضًا عندك حقل تاريخ
-    const time = document.getElementById('timeInput').value; // افتراضًا عندك حقل وقت
+    const name = document.getElementById('nameInput').value;
+    const date = document.getElementById('dateInput').value;
+    const time = document.getElementById('timeInput').value;
     const notes = document.getElementById('notesInput').value;
-    const account = document.getElementById('accountInput').value; // ده الحقل الجديد
 
-    // هنا بتستخدم المتغيرات دي، سواء بتبعتها لـ API أو بتضيفها لجدول
-    console.log('الاسم:', name);
-    console.log('التاريخ:', date);
-    console.log('الوقت:', time);
-    console.log('الملاحظة:', notes);
-    console.log('الحساب:', account);
+    // لاحظ: لا يوجد أي استدعاء لـ document.getElementById('accountInput').value; هنا
 
-    // أكمل باقي منطق حفظ الموعد
+    // الآن، بيانات الموعد التي سيتم التعامل معها هي: name, date, time, notes فقط
+    const appointmentData = {
+        name: name,
+        date: date,
+        time: time,
+        notes: notes
+    };
+
+    console.log('بيانات الموعد الجاري حفظها:', appointmentData);
+
+    // هنا ستكمل منطق إرسال appointmentData إلى قاعدة البيانات أو تخزينها
+    // (مثل استخدام fetch() أو XMLHttpRequest لإرسال البيانات إلى API)
+
+    // مثال (إذا كنت ستضيفها إلى جدول محلي في الصفحة):
+    addAppointmentToTable(appointmentData);
+
+    // يمكنك مسح حقل الحساب بعد الإضافة لو أردت
+    document.getElementById('accountInput').value = '';
 }
 
+// دالة افتراضية لإضافة البيانات للجدول في الواجهة (للتوضيح فقط)
+function addAppointmentToTable(data) {
+    const tableBody = document.querySelector('.appointments-table tbody'); // افترض أن لديك جدول بهذا الـ selector
+    if (tableBody) {
+        const newRow = tableBody.insertRow();
+        newRow.insertCell().textContent = data.name;
+        newRow.insertCell().textContent = data.date;
+        newRow.insertCell().textContent = data.time;
+        newRow.insertCell().textContent = data.notes;
+        newRow.insertCell().textContent = 'حذف'; // زر الحذف
+    }
+}

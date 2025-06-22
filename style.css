@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   padding: 20px;
   background-color: #f0f0f0;
-  direction: rtl;
+  direction: rtl; /* لتنسيق النصوص العربية بشكل صحيح */
 }
 
 h1, h2 {
@@ -12,26 +12,44 @@ h1, h2 {
 form {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 10px; /* مسافة بين عناصر الفورم */
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* للسماح للعناصر بالانتقال لسطر جديد على الشاشات الصغيرة */
 }
 
 input, button {
   padding: 8px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* لتقريب الزوايا */
+}
+
+button {
+  background-color: #4CAF50; /* لون أخضر للزر */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* تأثير عند تمرير الماوس */
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* ظل خفيف للجدول */
 }
 
 th, td {
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
+}
+
+th {
+  background-color: #e0e0e0; /* خلفية لرؤوس الأعمدة */
 }
 
 .logo-container {
@@ -41,4 +59,14 @@ th, td {
 
 .logo {
   max-width: 150px;
+  height: auto; /* للحفاظ على نسبة العرض إلى الارتفاع */
+}
+
+/* تنسيق زر الحذف داخل الجدول */
+.delete-button {
+  background-color: #f44336; /* لون أحمر */
+}
+
+.delete-button:hover {
+  background-color: #da190b;
 }
